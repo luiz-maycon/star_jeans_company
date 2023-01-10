@@ -1,0 +1,2 @@
+# webscraping from H&M website
+0 10 * * * 1-5 /home/luizmaycon/anaconda3/envs/python_ds_ao_dev/bin/python /home/luizmaycon/Documentos/repos/python_ds_ao_dev/webscraping/webscraping_hm.py
