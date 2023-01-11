@@ -82,7 +82,7 @@ Identificando a causa raíz do problema e tendo um modelo para o produto final e
 ## 6.0 Engenharia
 **6.1 Coleta de dados**
 
-Webscraping pode ser definido simplesmente como extrair dados de websites, e essa é a técnica mais apropriada para o presente projeto. Foi escolhida a página Men’s Jeans do site da H&M (https://www2.hm.com/en_us/men/products/jeans.html) como fonte de dados e a ferramenta utilizada foi a biblioteca Beautiful Soup. A seguir está um exemplo da forma como os dados chegaram:
+Webscraping pode ser definido simplesmente como extrair dados de websites, e essa é a técnica mais apropriada para o presente projeto. Foi escolhida a página Men’s Jeans do site da [H&M](https://www2.hm.com/en_us/men/products/jeans.html) como fonte de dados e a ferramenta utilizada foi a biblioteca Beautiful Soup. A seguir está um exemplo da forma como os dados chegaram:
 | COLUNA          | DADO                                                                   |
 |-----------------|------------------------------------------------------------------------|
 | product_id      | 1024256002                                                             |
