@@ -236,5 +236,6 @@ Ademais, este projeto segue uma forma cíclica de construção, de modo que há 
 ## 9.0 Próximos Passos
 - Utilizar a ferramenta Selenium para fazer o webscraping;
 - Utilizar a ferramenta Apache Airflow para trabalhar com o agendamento e os jobs;
+- Utilizar o banco de dados remotamente;
 - Coletar dados de outras fontes além do website da H&M;
 - Incluir os fatores de tamanho das calças à análise.
