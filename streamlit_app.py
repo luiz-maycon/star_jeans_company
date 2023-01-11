@@ -149,7 +149,7 @@ def data_cases(data, tab):
 
 if __name__ == "__main__":
     # parameters
-    path = '/database/'
+    path = '/home/luizmaycon/Documentos/repos/python_ds_ao_dev/database/'
     database = 'database_hm.sqlite'
     tabs = st.tabs(['Overview', 'Cases'])
 
