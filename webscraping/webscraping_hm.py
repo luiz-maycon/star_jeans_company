@@ -10,12 +10,12 @@ from datetime        import datetime
 from sqlalchemy      import create_engine
 
 # 1.0 Data collection
-def data_collection( url, headers ):
+def data_collection(url, headers):
     # request to URL
-    page = requests.get( url, headers=headers )
+    page = requests.get(url, headers=headers)
 
     # Beautiful Soup object
-    soup = BeautifulSoup( page.text, 'html.parser' )
+    soup = BeautifulSoup(page.text, 'html.parser')
 
     # make pagination
     total_itens = soup.find_all('h2', class_='load-more-heading')[0].get('data-total')
@@ -29,31 +29,31 @@ def data_collection( url, headers ):
     soup = BeautifulSoup(page.text, 'html.parser')
 
     # ==================== Product Data ====================
-    products = soup.find( 'ul', class_="products-listing small" )
+    products = soup.find('ul', class_="products-listing small")
 
     # product id
-    product_list = products.find_all( 'article', 'hm-product-item' )
-    product_id = [p.get( 'data-articlecode' ) for p in product_list]
+    product_list = products.find_all('article', 'hm-product-item')
+    product_id = [p.get('data-articlecode') for p in product_list]
 
     # product category
-    product_category = [p.get( 'data-category' ) for p in product_list]
+    product_category = [p.get('data-category') for p in product_list]
 
     # product name
-    product_list = products.find_all( 'a', 'link' )
+    product_list = products.find_all('a', 'link')
     product_name = [p.get_text() for p in product_list]
 
     # product price
-    product_list = products.find_all( 'span', 'price regular' )
+    product_list = products.find_all('span', 'price regular')
     product_price = [p.get_text() for p in product_list]
 
     # create dataframe
-    data = pd.DataFrame( [product_id, product_category, product_name, product_price] ).T
+    data = pd.DataFrame([product_id, product_category, product_name, product_price]).T
     data.columns = ['product_id', 'product_category', 'product_name', 'product_price']
 
     return data
 
 # Data Collection by Product
-def data_collection_by_product( data, headers ):
+def data_collection_by_product(data, headers):
     # empty dataframe
     df_compositions = pd.DataFrame()
 
@@ -135,7 +135,7 @@ def data_collection_by_product( data, headers ):
     return df_compositions
 
 # 3.0 Data Cleaning
-def data_cleaning( data_product ):
+def data_cleaning(data_product):
     # Read data
     df_data = data_product.dropna( subset=['product_id'] )
 
@@ -206,7 +206,7 @@ def data_cleaning( data_product ):
     return df_data
 
 # 4.0 Data Insertion
-def data_insert( data_cleaned ):
+def data_insert(data_cleaned, path_database):
     # reorganize columns
     data_insert = data_cleaned[[
         'product_id',
@@ -225,53 +225,60 @@ def data_insert( data_cleaned ):
     ]]
 
     # create database connection
-    conn = create_engine('sqlite:////home/luizmaycon/Documentos/repos/python_ds_ao_dev/database/database_hm.sqlite', echo=False)
+    conn = create_engine('sqlite:///' + path_database, echo=False)
 
     # insert
-    data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
+    # data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
 
-    # update csv
+    return None
+
+def data_to_csv(path_database):
+    conn = create_engine('sqlite:///' + path_database, echo=False)
+
     query = """
         SELECT * FROM vitrine
     """
 
-    df = pd.read_sql(query, con=conn)
-    df.to_csv('database/dataset_hm.csv')
+    df_raw = pd.read_sql(query, con=conn)
+
+    df_raw.to_csv('database/dataset_hm.csv')
 
     return None
 
 if __name__ == "__main__":
-    # Logging
-    path = '/home/luizmaycon/Documentos/repos/python_ds_ao_dev/'
-
-    if not os.path.exists( path + 'logs' ):
-        os.makedirs( path + 'logs' )
-
-    logging.basicConfig(
-        filename = path + 'logs/webscraping_hm.log',
-        level = logging.DEBUG,
-        format ='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
-        datefmt = '%Y-%m-%d %H:%M:%S'
-    )
-
-    logger = logging.getLogger( 'webscraping_hm' )
-
     # Parameters
     url = 'https://www2.hm.com/en_us/men/products/jeans.html'
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0'}
+    path_database = '/home/luizmaycon/Documentos/repos/python_ds_ao_dev/database/database_hm.sqlite'
+    path_logs = '/home/luizmaycon/Documentos/repos/python_ds_ao_dev/webscraping/'
+
+    # Logging
+    if not os.path.exists(path_logs + 'logs'):
+        os.makedirs(path_logs + 'logs')
+    logging.basicConfig(
+        filename=path_logs + 'logs/webscraping_hm.log',
+        level=logging.DEBUG,
+        format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    logger = logging.getLogger('webscraping_hm')
 
     # Data Collection
-    data = data_collection( url, headers )
-    logger.info( 'data collection done' )
+    data = data_collection(url, headers)
+    logger.info('data collection done')
 
     # Data Collection by Product
-    data_product = data_collection_by_product( data, headers )
-    logger.info( 'data collection by product done' )
+    data_product = data_collection_by_product(data, headers)
+    logger.info('data collection by product done')
 
     # Data Cleaning
-    data_cleaned = data_cleaning( data_product )
-    logger.info( 'data cleaning done' )
+    data_cleaned = data_cleaning(data_product)
+    logger.info('data cleaning done')
 
     # Data Insertion
-    data_insert( data_cleaned )
-    logger.info( 'data insertion done' )
+    data_insert(data_cleaned, path_database)
+    logger.info('data insertion done')
+
+    # Data to CSV
+    data_to_csv(path_database)
+    logger.info('data to csv done')
