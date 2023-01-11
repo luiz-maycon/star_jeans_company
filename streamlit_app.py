@@ -3,7 +3,6 @@ import numpy            as np
 import pandas           as pd
 import streamlit        as st
 import matplotlib.pyplot as plt
-from sqlalchemy import create_engine
 
 # 0.2 Config
 st.set_page_config( layout='centered' )
@@ -12,12 +11,8 @@ st.markdown("<h1 style='text-align: center;'>Star Jeans Company</h1>", unsafe_al
 st.markdown("<h4 style='text-align: center;'>Welcome to Star Jeans Data Analysis!</h4>", unsafe_allow_html=True)
 
 # 1.0 Data Collection
-def data_collection( path, database ):
-    conn = create_engine('sqlite:///' + path + database, echo=False)
-    query = """
-        SELECT * FROM vitrine
-    """
-    df_raw = pd.read_sql(query, con=conn)
+def data_collection():
+    df_raw = pd.read_csv( 'database/dataset_hm.csv' )
 
     return df_raw
 
@@ -149,12 +144,10 @@ def data_cases(data, tab):
 
 if __name__ == "__main__":
     # parameters
-    path = '/home/luizmaycon/Documentos/repos/python_ds_ao_dev/database/'
-    database = 'database_hm.sqlite'
     tabs = st.tabs(['Overview', 'Cases'])
 
     # data collection
-    data = data_collection(path, database)
+    data = data_collection()
 
     # feature engineering
     data = feature_engineering(data)

@@ -230,6 +230,14 @@ def data_insert( data_cleaned ):
     # insert
     data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
 
+    # update csv
+    query = """
+        SELECT * FROM vitrine
+    """
+
+    df = pd.read_sql(query, con=conn)
+    df.to_csv('database/dataset_hm.csv')
+
     return None
 
 if __name__ == "__main__":
