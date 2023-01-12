@@ -241,7 +241,7 @@ def data_to_csv(path_database):
 
     df_raw = pd.read_sql(query, con=conn)
 
-    df_raw.to_csv('database/dataset_hm.csv')
+    df_raw.to_csv('/home/luizmaycon/Documentos/repos/python_ds_ao_dev/database/dataset_hm.csv')
 
     return None
 
