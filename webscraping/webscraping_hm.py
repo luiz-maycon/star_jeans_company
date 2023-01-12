@@ -228,21 +228,13 @@ def data_insert(data_cleaned, path_database):
     conn = create_engine('sqlite:///' + path_database, echo=False)
 
     # insert
-    # data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
+    data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
 
     return None
 
 def data_to_csv(path_database):
     conn = create_engine('sqlite:///' + path_database, echo=False)
 
-<<<<<<< HEAD
-    return None
-
-def data_to_csv(path_database):
-    conn = create_engine('sqlite:///' + path_database, echo=False)
-
-=======
->>>>>>> 2bd334d6c36dd644f0cc7fd6108c754ab33f0f4e
     query = """
         SELECT * FROM vitrine
     """
