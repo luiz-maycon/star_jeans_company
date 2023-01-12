@@ -5,14 +5,14 @@ import streamlit        as st
 import matplotlib.pyplot as plt
 
 # 0.2 Config
-st.set_page_config( layout='centered' )
+st.set_page_config(layout='centered')
 # Set the principal title
 st.markdown("<h1 style='text-align: center;'>Star Jeans Company</h1>", unsafe_allow_html=True)
 st.markdown("<h4 style='text-align: center;'>Welcome to Star Jeans Data Analysis!</h4>", unsafe_allow_html=True)
 
 # 1.0 Data Collection
 def data_collection():
-    df_raw = pd.read_csv( 'database/dataset_hm.csv' )
+    df_raw = pd.read_csv('database/dataset_hm.csv')
 
     return df_raw
 
