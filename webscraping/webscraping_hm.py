@@ -228,7 +228,7 @@ def data_insert(data_cleaned, path_database):
     conn = create_engine('sqlite:///' + path_database, echo=False)
 
     # insert
-    data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
+    # data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
 
     return None
 
@@ -241,7 +241,7 @@ def data_to_csv(path_database):
 
     df_raw = pd.read_sql(query, con=conn)
 
-    df_raw.to_csv('database/dataset_hm.csv')
+    df_raw.to_csv('/home/luizmaycon/Documentos/repos/python_ds_ao_dev/database/dataset_hm.csv')
 
     return None
 
