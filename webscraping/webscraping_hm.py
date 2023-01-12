@@ -228,7 +228,7 @@ def data_insert(data_cleaned, path_database):
     conn = create_engine('sqlite:///' + path_database, echo=False)
 
     # insert
-    # data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
+    data_insert.to_sql('vitrine', con=conn, if_exists='append', index=False)
 
     return None
 
